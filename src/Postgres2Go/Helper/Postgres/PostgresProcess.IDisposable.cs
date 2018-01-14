@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Postgres2Go.Helper
+namespace Postgres2Go.Helper.Postgres
 {
     partial class PostgresProcess : IDisposable
     {
