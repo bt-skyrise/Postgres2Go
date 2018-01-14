@@ -7,7 +7,9 @@ namespace Postgres2Go.Helper.FileSystem
         internal static string Create()
         {
             var tempDirPath = GetUnusedPath();
-            Directory.CreateDirectory(tempDirPath);
+            
+            FileSystem
+                .CreateFolder(tempDirPath);
 
             return tempDirPath;
         }
