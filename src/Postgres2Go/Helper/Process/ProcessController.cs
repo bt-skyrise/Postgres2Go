@@ -41,7 +41,7 @@ namespace Postgres2Go.Helper.Process
             process.CancelErrorRead();
             process.CancelOutputRead();
 
-            return new ProcessOutput(errorOutput, standardOutput);
+            return new ProcessOutput(errorOutput, standardOutput, process.ExitCode);
         }
 
         internal static ProcessOutput StartAndWaitForReady(System.Diagnostics.Process process, int timeoutInSeconds, string processReadyIdentifier, string windowTitle)
@@ -97,7 +97,7 @@ namespace Postgres2Go.Helper.Process
             process.CancelErrorRead();
             process.CancelOutputRead();
 
-            return new ProcessOutput(errorOutput, standardOutput);
+            return new ProcessOutput(errorOutput, standardOutput, process.ExitCode);
         }
     }
 }

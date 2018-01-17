@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Postgres2Go.Helper.FileSystem
 {
@@ -20,8 +21,12 @@ namespace Postgres2Go.Helper.FileSystem
         internal static string FindFolder(this string startPath, string searchPattern)
         {
             string currentPath = startPath;
+            string subPathToLookup = searchPattern.StartsWith(Path.DirectorySeparatorChar.ToString())
+                ? searchPattern.Substring(1,searchPattern.Length - 1) 
+                : searchPattern
+                ;
 
-            foreach (var part in searchPattern.Split(new[] { Path.DirectorySeparatorChar }, StringSplitOptions.None))
+            foreach (var part in subPathToLookup.Split(new[] { Path.DirectorySeparatorChar }, StringSplitOptions.None))
             {
                 string[] matchesDirectory = Directory.GetDirectories(currentPath, part);
                 if (!matchesDirectory.Any())

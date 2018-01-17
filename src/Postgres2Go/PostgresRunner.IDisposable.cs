@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Postgres2Go.Helper.FileSystem;
+using Postgres2Go.Helper.Postgres;
 
 namespace Postgres2Go
 {
-    public partial class PostgresRunner
+    partial class PostgresRunner : IDisposable
     {
         ~PostgresRunner()
         {
@@ -16,33 +17,38 @@ namespace Postgres2Go
 
         public void Dispose()
         {
-            Dispose();
+            Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        private void Dispose()
+        private void Dispose(bool disposing)
         {
-            if (Disposed)
-            {
-                return;
-            }
+            //if (Disposed)
+            //{
+            //    return;
+            //}
 
-            if (State != State.Running)
-            {
-                return;
-            }
+            //if (State != State.Running)
+            //{
+            //    return;
+            //}
 			
+            //if (_pgStarterProcess != null)
+            //{
+            //    _pgStarterProcess.Dispose();
+            //}
 
-            if (_pgProcess != null)
-            {
-                _pgProcess.Stop(_pgBin.Directory, _dataDirectory);
-            }
+            //if(_pgBin != null)
+            //{
+            //    PostgresProcessStarter
+            //        .Stop(_pgBin.Directory, _dataDirectory);
+            //}
+            
+            //Helper.FileSystem.FileSystem
+            //    .DeleteFolder(_dataDirectory);
 
-            Helper.FileSystem.FileSystem
-                .DeleteFolder(_dataDirectory);
-
-            Disposed = true;
-            State = State.Stopped;
+            //Disposed = true;
+            //State = State.Stopped;
         }
     }
 }

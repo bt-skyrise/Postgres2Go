@@ -27,7 +27,7 @@ namespace Postgres2Go.Helper.FileSystem
                 alreadyExists = Directory.Exists(tempDirPath);
                 attempts++;
             }
-            while(!alreadyExists || attempts <= maxAttempts);
+            while(alreadyExists && attempts <= maxAttempts);
 
             if(alreadyExists)
                 throw new TemporaryDirectoryNameInUseException();

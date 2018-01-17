@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.NetworkInformation;
+using System.Net.Sockets;
 
 namespace Postgres2Go.Helper.Net
 {
@@ -29,6 +30,7 @@ namespace Postgres2Go.Helper.Net
             return IPGlobalProperties
                     .GetIPGlobalProperties()
                     .GetActiveTcpListeners()
+                    .Where(ep => ep.AddressFamily == AddressFamily.InterNetwork)
                     .All(ep => ep.Port != portNumber)
                     ;
 

@@ -39,8 +39,7 @@ namespace Postgres2Go.Helper.Net
             {
                 IPortWatcher portWatcher = PortWatcherFactory.CreatePortWatcher();
                 int newAvailablePort = portWatcher.FindOpenPort(_startPort);
-
-                _startPort = newAvailablePort + 1;
+                
                 return newAvailablePort;
             }
         }

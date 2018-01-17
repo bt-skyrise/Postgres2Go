@@ -1,5 +1,7 @@
-﻿using Postgres2Go.Helper.Process;
+﻿using System;
+using Postgres2Go.Helper.Process;
 using System.IO;
+using System.Linq;
 
 namespace Postgres2Go.Helper.Postgres
 {
@@ -10,8 +12,8 @@ namespace Postgres2Go.Helper.Postgres
 
         internal static PostgresProcess Start(string binariesDirectory, string dataDirectory, int port)
         {
-            string pgControllerExecutablePath = $"{binariesDirectory}{Path.PathSeparator}{PostgresDefaults.ServerControllerExecutable}";
-            string arguments = $"start -D \"{dataDirectory}\" -s -o \"-i -h localhost -p {port}\" ";
+            string pgControllerExecutablePath = $"{binariesDirectory}{Path.DirectorySeparatorChar}{PostgresDefaults.ServerControllerExecutable}";
+            string arguments = $"start -D \"{dataDirectory}\" -s -o \"-i -p {port} -F \"";
 
             System.Diagnostics.Process serverStarterProcess = Process.ProcessController
                 .CreateProcess(pgControllerExecutablePath, arguments);
@@ -29,7 +31,7 @@ namespace Postgres2Go.Helper.Postgres
         internal static void Stop(string binariesDirectory, string dataDirectory)
         {
 
-            string pgControllerExecutablePath = $"{binariesDirectory}{Path.PathSeparator}{PostgresDefaults.ServerControllerExecutable}";
+            string pgControllerExecutablePath = $"{binariesDirectory}{Path.DirectorySeparatorChar}{PostgresDefaults.ServerControllerExecutable}";
             string arguments = $"stop -D \"{dataDirectory}\" ";
 
             System.Diagnostics.Process serverStopperProcess = Process.ProcessController
@@ -38,6 +40,8 @@ namespace Postgres2Go.Helper.Postgres
             ProcessOutput output = Process.ProcessController
                 .StartAndWaitForExit(serverStopperProcess, $"postgres stopping");
 
+            if(output.ExitCode != 0)
+                throw new PostgresProcessFinishedWithErrorsException(String.Join("\n",output.ErrorOutput));
         }
     }
 }
