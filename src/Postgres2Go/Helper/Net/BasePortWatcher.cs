@@ -17,7 +17,7 @@ namespace Postgres2Go.Helper.Net
             {
                 port = rnd.Next(startPort, 65000);
 
-            } while (IsPortAvailable(port) && numberOfAttempts < 100);
+            } while (!IsPortAvailable(port) && numberOfAttempts < 100);
 
             if(port == 0)
                 throw new NoFreePortFoundException();

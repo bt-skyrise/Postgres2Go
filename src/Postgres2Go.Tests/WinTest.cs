@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Postgres2Go.Tests
 {
-    public class Test
+    public class WinTest
     {
         [Fact]
         public void Run()
