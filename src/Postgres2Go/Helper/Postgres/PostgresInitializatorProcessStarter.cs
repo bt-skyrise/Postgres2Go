@@ -10,7 +10,6 @@ namespace Postgres2Go.Helper.Postgres
         {
 
             string pgControllerExecutablePath = $"{binariesDirectory}{System.IO.Path.DirectorySeparatorChar}{PostgresDefaults.ServerControllerExecutable}";
-            //string arguments = $"init -D \"{dataDirectory}\" -o \"-U test\" ";
             string arguments = $"init -D \"{dataDirectory}\" -o \" -U {user} \" ";
 
             System.Diagnostics.Process serverInitializatorProcess = Process.ProcessController

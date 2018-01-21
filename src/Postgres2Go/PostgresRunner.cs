@@ -92,14 +92,13 @@ namespace Postgres2Go
             PostgresBinaries
                 .AssertCanExecute(_pgBin.Directory);
 
-            ConnectionString = $"Server=localhost;Port:{_port};";
-
             PostgresInitializatorProcessStarter
-                .Init(_pgBin.Directory, _dataDirectory, "test");
+                .Init(_pgBin.Directory, _dataDirectory, PostgresDefaults.User);
 
             _pgStarterProcess = PostgresProcessStarter
                 .Start(_pgBin.Directory, _dataDirectory, _port);
-
+            
+            ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database=postgres";
             State = State.Running;
         }
 
@@ -136,7 +135,7 @@ namespace Postgres2Go
                 try
                 {
                     PostgresProcessStarter
-                                .Stop(_pgBin.Directory, _dataDirectory);
+                        .Stop(_pgBin.Directory, _dataDirectory);
                 }
                 catch (Exception)
                 {
