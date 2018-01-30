@@ -10,11 +10,12 @@ namespace Postgres2Go.Helper.Postgres
             switch (RecognizedOSPlatform.Determine())
             {
                 case RecognizedOSPlatformEnum.Linux:
-                case RecognizedOSPlatformEnum.OSX:
                     FileSystem.FileSystem.GrantExecutablePermission(Path.Combine(pgBinDirectoryPath, PostgresDefaults.ServerControllerExecutable));
                     FileSystem.FileSystem.GrantExecutablePermission(Path.Combine(pgBinDirectoryPath, PostgresDefaults.ServerExecutable));
                     FileSystem.FileSystem.GrantExecutablePermission(Path.Combine(pgBinDirectoryPath, PostgresDefaults.ServerInitializatorExecutable));
                     break;
+                case RecognizedOSPlatformEnum.OSX:
+                    throw new UnsupportedPlatformException($"Cannot grant executable right to Postgres binaries when running on OSX platform. OSX platform is not supported.");
                 case RecognizedOSPlatformEnum.Windows:
                     default:
                     break;

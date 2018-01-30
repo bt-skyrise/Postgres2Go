@@ -11,7 +11,7 @@ namespace Postgres2Go.Helper.Net
                 case RecognizedOSPlatformEnum.Linux:
                     return (IPortWatcher) new UnixPortWatcher();
                 case RecognizedOSPlatformEnum.OSX:
-                    return (IPortWatcher) new OsxPortWatcher();
+                    throw new UnsupportedPlatformException($"Cannot create {nameof(IPortWatcher)} when running on OSX platform. OSX platform is not supported.");
                 case RecognizedOSPlatformEnum.Windows:
                 default:
                     return (IPortWatcher) new WindowsPortWatcher();
