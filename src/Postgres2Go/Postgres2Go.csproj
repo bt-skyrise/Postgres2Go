@@ -9,12 +9,6 @@
 
   <ItemGroup>
     <Compile Remove="Helper\PostgresProcess.IDisposable.cs" />
-    <Compile Remove="PostgresRunner.IDisposable.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Helper\Postgres\PostgresProcess.IDisposable.cs" />
-    <None Include="PostgresRunner.IDisposable.cs" />
   </ItemGroup>
 
   <ItemGroup>

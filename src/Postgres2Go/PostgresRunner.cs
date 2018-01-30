@@ -6,12 +6,11 @@ using Postgres2Go.Helper.FileSystem;
 
 namespace Postgres2Go
 {
-    public partial class PostgresRunner : IDisposable
+    public partial class PostgresRunner
     {
         private string _dataDirectory;
         private int _port;
         private PostgresBinaryLocator _pgBin;
-        private PostgresProcess _pgStarterProcess;
 
         /// <summary>
         /// State of the current Postgres instance
@@ -92,12 +91,12 @@ namespace Postgres2Go
             PostgresBinaries
                 .AssertCanExecute(_pgBin.Directory);
 
-            PostgresInitializatorProcessStarter
-                .Init(_pgBin.Directory, _dataDirectory, PostgresDefaults.User);
+            PostgresInitializatorProcess
+                .Exec(_pgBin.Directory, _dataDirectory, PostgresDefaults.User);
 
-            _pgStarterProcess = PostgresProcessStarter
-                .Start(_pgBin.Directory, _dataDirectory, _port);
-            
+            PostgresStarterProcess
+                .Exec(_pgBin.Directory, _dataDirectory, _port);
+
             ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database=postgres";
             State = State.Running;
         }
@@ -105,55 +104,5 @@ namespace Postgres2Go
 
         private static string GetUniqueHash() => Guid.NewGuid().ToString().GetHashCode().ToString("x");
 
-        ~PostgresRunner()
-        {
-            Dispose(false);
-        }
-
-        public bool Disposed { get; private set; }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (Disposed)
-            {
-                return;
-            }
-
-            if (State != State.Running)
-            {
-                return;
-            }
-            
-            if (_pgBin != null)
-            {
-                try
-                {
-                    PostgresProcessStarter
-                        .Stop(_pgBin.Directory, _dataDirectory);
-                }
-                catch (Exception)
-                {
-                    ;
-                }
-            }
-
-            if (_pgStarterProcess != null)
-            {
-                _pgStarterProcess.Dispose();
-            }
-
-
-            FileSystem
-                .DeleteFolder(_dataDirectory);
-
-            Disposed = true;
-            State = State.Stopped;
-        }
     }
 }

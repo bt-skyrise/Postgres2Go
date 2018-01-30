@@ -2,11 +2,9 @@
 
 namespace Postgres2Go.Helper.Postgres
 {
-    internal class PostgresInitializatorProcessStarter
+    internal class PostgresInitializatorProcess
     {
-        private const int ProcessStartTimeout = 10;
-
-        internal static void Init(string binariesDirectory, string dataDirectory, string user)
+        internal static void Exec(string binariesDirectory, string dataDirectory, string user)
         {
 
             string pgControllerExecutablePath = $"{binariesDirectory}{System.IO.Path.DirectorySeparatorChar}{PostgresDefaults.ServerControllerExecutable}";
@@ -16,10 +14,10 @@ namespace Postgres2Go.Helper.Postgres
                 .CreateProcess(pgControllerExecutablePath, arguments);
 
             Process.ProcessOutput output = Process.ProcessController
-                .StartAndWaitForExit(serverInitializatorProcess, $"postgres initializing ...");
+                .StartAndWaitForExit(serverInitializatorProcess, $"Postgres cluster initializing");
 
             if(output.ExitCode != 0)
-                throw new PostgresProcessFinishedWithErrorsException(System.String.Join("\n",output.ErrorOutput));
+                throw new PostgresProcessFinishedWithErrorsException("Cannot initialize Postgres cluster.\n" + System.String.Join("\n",output.ErrorOutput));
         }
     }
 }
