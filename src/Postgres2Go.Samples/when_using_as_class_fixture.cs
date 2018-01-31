@@ -14,7 +14,7 @@ namespace Postgres2Go.Samples
         public PgFixture()
         {
             _pgRunner = PostgresRunner
-                .Start(searchPatternOverride: GetPgBinariesRelativePath());
+                .Start(postgresBinariesSearchPattern: GetPgBinariesRelativePath());
         }
 
         public void Dispose()

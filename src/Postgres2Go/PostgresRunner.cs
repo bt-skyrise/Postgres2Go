@@ -27,7 +27,10 @@ namespace Postgres2Go
         /// On dispose: kills them and deletes their data directory
         /// </summary>
         /// <remarks>Should be used for integration tests</remarks>
-        public static PostgresRunner Start(string dataDirectory = null, string searchPatternOverride = null, string databaseName = "postgres")
+        /// <param name="dataDirectory">Working directory where Postgres cluster will be initialized</param>
+        /// <param name="postgresBinariesSearchPattern">Pattern of path where postgres binaries should be located</param>
+        /// <param name="databaseName">Name of database used within of connection string</param>
+        public static PostgresRunner Start(string dataDirectory = null, string postgresBinariesSearchPattern = null, string databaseName = "postgres")
         {
             if (dataDirectory == null)
             {
@@ -36,41 +39,30 @@ namespace Postgres2Go
 
             // this is required to support multiple instances to run in parallel
             var instanceDataDirectory = Path.Combine(dataDirectory, GetUniqueHash());
+            
+            PostgresRunner pgRunner = null;
 
-            return new PostgresRunner(
-                PortPool.GetInstance,
-                new PostgresBinaryLocator(searchPatternOverride),
-                databaseName,
-                instanceDataDirectory
-            );
-        }
-
-        public PostgresRunner()
-        {
-        }
-
-        /// <summary>
-        /// usage: integration tests
-        /// </summary>
-        private PostgresRunner(
-            IPortPool portPool,
-            PostgresBinaryLocator pgBin,
-            string databaseName,
-            string dataDirectory = null
-            )
-        {
             try
             {
-                Run(portPool, pgBin, dataDirectory, databaseName);
+                pgRunner = new PostgresRunner().Run(
+                    PortPool.GetInstance, 
+                    new PostgresBinaryLocator(postgresBinariesSearchPattern), 
+                    dataDirectory,
+                    databaseName
+                );
+
+                return pgRunner;
             }
-            catch (Exception e)
+            catch(Exception e)
             {
                 Console.WriteLine(e);
-                Dispose(true);
+                pgRunner?.Dispose(true);
+                throw;
             }
+    
         }
 
-        private void Run(
+        private PostgresRunner Run(
             IPortPool portPool,
             PostgresBinaryLocator pgBin,
             string dataDirectory,
@@ -102,6 +94,8 @@ namespace Postgres2Go
 
             ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database={databaseName}";
             State = State.Running;
+
+            return this;
         }
 
 
