@@ -27,7 +27,7 @@ namespace Postgres2Go
         /// On dispose: kills them and deletes their data directory
         /// </summary>
         /// <remarks>Should be used for integration tests</remarks>
-        public static PostgresRunner Start(string dataDirectory = null, string searchPatternOverride = null)
+        public static PostgresRunner Start(string dataDirectory = null, string searchPatternOverride = null, string databaseName = "postgres")
         {
             if (dataDirectory == null)
             {
@@ -40,6 +40,7 @@ namespace Postgres2Go
             return new PostgresRunner(
                 PortPool.GetInstance,
                 new PostgresBinaryLocator(searchPatternOverride),
+                databaseName,
                 instanceDataDirectory
             );
         }
@@ -54,12 +55,13 @@ namespace Postgres2Go
         private PostgresRunner(
             IPortPool portPool,
             PostgresBinaryLocator pgBin,
+            string databaseName,
             string dataDirectory = null
             )
         {
             try
             {
-                Run(portPool, pgBin, dataDirectory);
+                Run(portPool, pgBin, dataDirectory, databaseName);
             }
             catch (Exception e)
             {
@@ -71,7 +73,8 @@ namespace Postgres2Go
         private void Run(
             IPortPool portPool,
             PostgresBinaryLocator pgBin,
-            string dataDirectory
+            string dataDirectory,
+            string databaseName
             )
         {
             _port = portPool.GetNextOpenPort();
@@ -97,7 +100,7 @@ namespace Postgres2Go
             PostgresStarterProcess
                 .Exec(_pgBin.Directory, _dataDirectory, _port);
 
-            ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database=postgres";
+            ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database={databaseName}";
             State = State.Running;
         }
 
