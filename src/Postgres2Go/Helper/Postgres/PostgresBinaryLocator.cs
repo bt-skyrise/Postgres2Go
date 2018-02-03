@@ -9,8 +9,8 @@ namespace Postgres2Go.Helper.Postgres
 
     internal class PostgresBinaryLocator
     {
-        internal const string DefaultWindowsSearchPattern = @"tools\pqsql-win64*\bin";
-        internal const string DefaultLinuxSearchPattern = "tools/pqsql-linux*/bin";
+        internal const string DefaultWindowsSearchPattern = @"pg-dist\pqsql-win64*\bin";
+        internal const string DefaultLinuxSearchPattern = "pg-dist/pqsql-linux*/bin";
         
         private readonly string _nugetPrefix = Path.Combine("packages", "Postgres2Go*");
         private string _binFolder = string.Empty;
@@ -27,7 +27,6 @@ namespace Postgres2Go.Helper.Postgres
                         break;
                     case RecognizedOSPlatformEnum.OSX:
                         throw new UnsupportedPlatformException($"Cannot locate Postgres binaries when running on OSX platform. OSX platform is not supported.");
-                        break;
                     case RecognizedOSPlatformEnum.Windows:
                         _searchPattern = DefaultWindowsSearchPattern;
                         break;
