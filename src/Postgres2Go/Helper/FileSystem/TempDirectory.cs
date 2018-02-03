@@ -4,16 +4,6 @@ namespace Postgres2Go.Helper.FileSystem
 {
     internal class TempDirectory
     {
-        internal static string Create()
-        {
-            var tempDirPath = GetUnusedPath();
-            
-            FileSystem
-                .CreateFolder(tempDirPath);
-
-            return tempDirPath;
-        }
-
         internal static string GetUnusedPath()
         {
             bool alreadyExists = false;

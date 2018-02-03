@@ -14,16 +14,12 @@ namespace Postgres2Go.Samples
         public PgFixture()
         {
             _pgRunner = PostgresRunner
-                .Start(postgresBinariesSearchPattern: GetPgBinariesRelativePath());
+                .Start(new PostgresRunnerOptions{ BinariesSearchPattern = GetPgBinariesRelativePath()});
         }
 
-        public void Dispose()
-        {
-            if (_pgRunner is IDisposable)
-                (_pgRunner as IDisposable).Dispose();
-        }
+        public void Dispose() => _pgRunner?.Dispose();
 
-        public string ConnectionString => _pgRunner.ConnectionString;
+        public string ConnectionString => _pgRunner.GetConnectionString();
 
         private string GetPgBinariesRelativePath()
         {

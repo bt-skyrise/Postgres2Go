@@ -26,11 +26,9 @@ namespace Postgres2Go
                 return;
             }
 
-            PostgresStoperProcess
-                .Exec(_pgBin.Directory, _dataDirectory);
+            PostgresStoperProcess.Exec(_binDirectory, _instanceDirectory);
 
-            FileSystem
-                .DeleteFolder(_dataDirectory);
+            FileSystem.DeleteFolder(_instanceDirectory);
             
             State = State.Stopped;
 
