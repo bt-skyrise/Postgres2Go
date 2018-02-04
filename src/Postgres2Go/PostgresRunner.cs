@@ -8,9 +8,9 @@ namespace Postgres2Go
 {
     public partial class PostgresRunner
     {
-        private string _dataDirectory;
         private int _port;
-        private PostgresBinaryLocator _pgBin;
+        private readonly PostgresRunnerOptions _options;
+        private string _instanceDirectory, _binDirectory;
 
         /// <summary>
         /// State of the current Postgres instance
@@ -18,38 +18,17 @@ namespace Postgres2Go
         public State State { get; private set; }
 
         /// <summary>
-        /// Connections string that should be used to establish a connection the Postgres instance
+        /// Starts a new Postgres instance with each call
         /// </summary>
-        public string ConnectionString { get; private set; }
-
-        /// <summary>
-        /// Starts Multiple Postgres instances with each call
-        /// On dispose: kills them and deletes their data directory
-        /// </summary>
+        /// <param name="options">Runner options</param>
         /// <remarks>Should be used for integration tests</remarks>
-        /// <param name="dataDirectory">Working directory where Postgres cluster will be initialized</param>
-        /// <param name="postgresBinariesSearchPattern">Pattern of path where postgres binaries should be located</param>
-        /// <param name="databaseName">Name of database used within of connection string</param>
-        public static PostgresRunner Start(string dataDirectory = null, string postgresBinariesSearchPattern = null, string databaseName = "postgres")
+        public static PostgresRunner Start(PostgresRunnerOptions options = null)
         {
-            if (dataDirectory == null)
-            {
-                dataDirectory = TempDirectory.Create();
-            }
-
-            // this is required to support multiple instances to run in parallel
-            var instanceDataDirectory = Path.Combine(dataDirectory, GetUniqueHash());
-            
             PostgresRunner pgRunner = null;
 
             try
             {
-                pgRunner = new PostgresRunner().Run(
-                    PortPool.GetInstance, 
-                    new PostgresBinaryLocator(postgresBinariesSearchPattern), 
-                    dataDirectory,
-                    databaseName
-                );
+                pgRunner = new PostgresRunner(options).Run();
 
                 return pgRunner;
             }
@@ -62,44 +41,36 @@ namespace Postgres2Go
     
         }
 
-        private PostgresRunner Run(
-            IPortPool portPool,
-            PostgresBinaryLocator pgBin,
-            string dataDirectory,
-            string databaseName
-            )
+        private PostgresRunner(PostgresRunnerOptions options) => _options = options ?? new PostgresRunnerOptions();
+        
+        private PostgresRunner Run()
         {
-            _port = portPool.GetNextOpenPort();
-            _pgBin = pgBin;
+            _instanceDirectory = Path.Combine(_options.DataDirectory ?? TempDirectory.GetUnusedPath(), GetUniqueHash());
+            FileSystem.CreateFolder(_instanceDirectory);
+            
+            _port = _options.Port ?? PortPool.GetInstance.GetNextOpenPort();
+            _binDirectory = new PostgresBinaryLocator(_options.BinariesSearchPattern).Directory;
 
-            if (dataDirectory == null)
-            {
-                dataDirectory = TempDirectory.Create();
-            }
-            else
-            {
-                FileSystem.CreateFolder(dataDirectory);
-            }
-
-            _dataDirectory = dataDirectory;
-
+            
             PostgresBinaries
-                .AssertCanExecute(_pgBin.Directory);
+                .AssertCanExecute(_binDirectory);
 
             PostgresInitializatorProcess
-                .Exec(_pgBin.Directory, _dataDirectory, PostgresDefaults.User);
+                .Exec(_binDirectory, _instanceDirectory, PostgresDefaults.User);
 
             PostgresStarterProcess
-                .Exec(_pgBin.Directory, _dataDirectory, _port);
+                .Exec(_binDirectory, _instanceDirectory, _port);
 
-            ConnectionString = $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database={databaseName}";
             State = State.Running;
 
             return this;
         }
 
-
         private static string GetUniqueHash() => Guid.NewGuid().ToString().GetHashCode().ToString("x");
 
+        public string GetConnectionString(string databaseName = "postgres") => 
+            $"Server=localhost;Port={_port};User Id={PostgresDefaults.User};Database={databaseName}";
     }
+    
+
 }
