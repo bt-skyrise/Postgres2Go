@@ -38,7 +38,7 @@ src/[Bb]in/
 TestResult.xml
 
 # XUNIT
-tests-results/
+test-results/**
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
@@ -278,9 +278,9 @@ paket-files/
 __pycache__/
 *.pyc
 
-# Cake - Uncomment if you are using it
- tools/**
- !tools/packages.config
+# Cake
+tools/**
+!tools/packages.config
 
 # Telerik's JustMock configuration file
 *.jmconfig
