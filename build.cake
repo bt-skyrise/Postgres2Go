@@ -1,20 +1,21 @@
+// Addins
+#addin                  "nuget:?package=Cake.Incubator"
+
 // Tools
 #tool                   "xunit.runner.console"
+#tool                   "nuget:?package=GitVersion.CommandLine"
 
 // Parameters
 var configuration       = Argument("Configuration", "Release");
 var target              = Argument("Target", "Default");
 
 // Variables
-var buildNumber =
-    HasArgument("BuildNumber") ? Argument<int>("BuildNumber") :
-    AppVeyor.IsRunningOnAppVeyor ? AppVeyor.Environment.Build.Number : 
-    0;
 var outputDir           = Directory("./artifacts");
 var projectDir          = GetFiles("./src/Postgres2Go/*.csproj").FirstOrDefault();
 var solution            = GetFiles("./src/*.sln").FirstOrDefault();
 var tests               = GetFiles("./src/Postgres2Go.Tests/*.csproj").FirstOrDefault();
 var testResultsDir      = Directory("./test-results/");
+GitVersion versionInfo  = null;
 
 
 // Tasks
@@ -55,15 +56,32 @@ Task("Restore-NuGet-Packages")
         DotNetCoreRestore(solution.FullPath);
     });
 
+Task("Get-Version-Info")
+    .Does(() => {
+        Information("Set artifacts version");
+        
+        versionInfo = GitVersion(
+                new GitVersionSettings {
+                    UpdateAssemblyInfo = true,
+                    OutputType = GitVersionOutput.Json
+                });
+        
+        Information("Version is: {0}", versionInfo.Dump());
+    });
+
 Task("Build")
     .IsDependentOn("Restore-NuGet-Packages")
+    .IsDependentOn("Get-Version-Info")
     .Does(() => {
         Information("Build solution");
         DotNetCoreBuild(solution.FullPath,
             new DotNetCoreBuildSettings()
             {
                 Configuration = configuration,
-                ArgumentCustomization = args => args.Append("--no-restore"),
+                ArgumentCustomization = args => args
+                    .Append("--no-restore")
+                    .Append("/p:SemVer=" + versionInfo.NuGetVersion) ,
+
             });
     });
 
@@ -91,15 +109,18 @@ Task("Test")
 Task("Pack")
     .IsDependentOn("Test")
     .Does(() => {
-        var revision = buildNumber.ToString("D4");
                 
+        Information("Creating nuget package");
         DotNetCorePack(
                 projectDir.GetDirectory().FullPath,
                 new DotNetCorePackSettings()
                 {
                     Configuration = configuration,
+                    NoBuild = true,
                     OutputDirectory = outputDir.Path,
-                    //VersionSuffix = revision
+                    ArgumentCustomization = args=> args
+                        .Append(" --include-symbols")
+                        .Append("/p:PackageVersion=" + versionInfo.NuGetVersion)
                 });
     });
 
