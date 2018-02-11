@@ -116,10 +116,13 @@ Task("Pack")
                 new DotNetCorePackSettings()
                 {
                     Configuration = configuration,
+                    IncludeSymbols = false,
+                    IncludeSource = false,
                     NoBuild = true,
+                    NoRestore = true,
                     OutputDirectory = outputDir.Path,
+                    Verbosity = DotNetCoreVerbosity.Minimal,
                     ArgumentCustomization = args=> args
-                        .Append(" --include-symbols")
                         .Append("/p:PackageVersion=" + versionInfo.NuGetVersion)
                 });
     });
