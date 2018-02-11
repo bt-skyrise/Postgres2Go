@@ -37,6 +37,9 @@ src/[Bb]in/
 *.VisualState.xml
 TestResult.xml
 
+# XUNIT
+test-results/**
+
 # Build Results of an ATL Project
 [Dd]ebugPS/
 [Rr]eleasePS/
@@ -169,6 +172,7 @@ PublishScripts/
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
+artifacts/
 
 # Microsoft Azure Build Output
 csx/
@@ -274,9 +278,9 @@ paket-files/
 __pycache__/
 *.pyc
 
-# Cake - Uncomment if you are using it
-# tools/**
-# !tools/packages.config
+# Cake
+tools/**
+!tools/packages.config
 
 # Telerik's JustMock configuration file
 *.jmconfig

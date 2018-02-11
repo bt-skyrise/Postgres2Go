@@ -1,0 +1,10 @@
+assembly-versioning-scheme: MajorMinor
+mode: ContinuousDelivery
+branches:
+  dev(elop)?(ment)?$:
+    mode: ContinuousDeployment
+  master:
+    mode: ContinuousDelivery
+  (pull|pull\-requests|pr)[/-]: {}
+ignore:
+  sha: []
