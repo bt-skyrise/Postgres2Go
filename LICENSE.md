@@ -27,4 +27,4 @@ SOFTWARE.
 
 ====
 
-All files located in the tools folder are externally maintained libraries used by this software which have their own licenses; we recommend you read them, as their terms may differ from the terms above.
+All files located in the pg-dist folder are externally maintained libraries used by this software which have their own licenses; we recommend you read them, as their terms may differ from the terms above.

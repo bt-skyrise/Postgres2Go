@@ -4,6 +4,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <Version>$(SemVer)</Version>
+    <NuspecFile>Postgres2Go.nuspec</NuspecFile>
   </PropertyGroup>
   <ItemGroup>
     <Compile Remove="Helper\PostgresProcess.IDisposable.cs" />
@@ -13,4 +15,11 @@
     <PackageReference Include="System.Net.NetworkInformation" Version="4.3.0" />
     <PackageReference Include="System.Threading" Version="4.3.0" />
   </ItemGroup>
+
+  <Target Name="SetNuspecProperties" BeforeTargets="GenerateNuspec">
+    <PropertyGroup>
+      <NuspecProperties>$(NuspecProperties);version=$(PackageVersion)</NuspecProperties>
+    </PropertyGroup>
+    <Message Importance="high" Text="Overrided nuspec properties: $(NuspecProperties)" />
+  </Target>
 </Project>

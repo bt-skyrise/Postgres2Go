@@ -24,9 +24,9 @@ namespace Postgres2Go.Samples
         private string GetPgBinariesRelativePath()
         {
             if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return "\\tools\\pgsql-10.1-windows64-binaries\\bin";
+                return "\\pg-dist\\pgsql-10.1-windows64-binaries\\bin";
             else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return "/tools/pgsql-10.1-linux-binaries/bin";
+                return "/pg-dist/pgsql-10.1-linux-binaries/bin";
             else
                 throw new NotSupportedException("OSX is not yet supported");
         }
