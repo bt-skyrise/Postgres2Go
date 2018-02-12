@@ -20,9 +20,9 @@ nuget:
 init:
 before_build:
 - ps: >-
-    $version-info_json = (gitversion -l console -output json);
+    $version_info_json = (gitversion /l console /output json);
 
-    $version_info = (gitversion -output json | ConvertFrom-Json);
+    $version_info = (gitversion /output json | ConvertFrom-Json);
     
     $env:VERSION_INFO = $version_info;
     
