@@ -30,7 +30,7 @@ before_build:
 
     Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER";
 
-    Write-Host "Get GitVersion output = " $version-info_json;
+    Write-Host "Get GitVersion output = " $version_info_json;
     
     Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER;
     
