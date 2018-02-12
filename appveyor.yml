@@ -21,13 +21,16 @@ init:
 before_build:
 - ps: >-
     $version_info = (gitversion -output json | ConvertFrom-Json)
-    $env:VERSION_INFO = $version_info
-    $env:VERSION_INFO_SEMVER = $version_info.SemVer
+    
+    $env:VERSION_INFO = $version_info;
+    
+    $env:VERSION_INFO_SEMVER = $version_info.SemVer;
 
-    Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER"
+    Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER";
 
-    Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER
-    Write-Host "Set APPVEYOR_BUILD_VERSION = " $env:APPVEYOR_BUILD_VERSION
+    Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER;
+    
+    Write-Host "Set APPVEYOR_BUILD_VERSION = " $env:APPVEYOR_BUILD_VERSION;
 
 build_script:
 - ps: .\build.ps1
