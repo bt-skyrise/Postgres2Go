@@ -5,8 +5,8 @@ branches:
   only:
   - master
   - develop
-  - release/*
-  - hotfix/*
+  - /release\/*/
+  - /hotfix\/*/
 skip_tags: true
 shallow_clone: true
 environment:
