@@ -8,7 +8,7 @@ branches:
   - /release\/*/
   - /hotfix\/*/
 skip_tags: true
-shallow_clone: true
+shallow_clone: false
 environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
@@ -20,7 +20,9 @@ nuget:
 init:
 before_build:
 - ps: >-
-    $version_info = (gitversion -l console -output json | ConvertFrom-Json)
+    $version-info_json = (gitversion -l console -output json);
+
+    $version_info = (gitversion -output json | ConvertFrom-Json);
     
     $env:VERSION_INFO = $version_info;
     
@@ -28,6 +30,8 @@ before_build:
 
     Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER";
 
+    Write-Host "Get GitVersion output = " $version-info_json;
+    
     Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER;
     
     Write-Host "Set APPVEYOR_BUILD_VERSION = " $env:APPVEYOR_BUILD_VERSION;
