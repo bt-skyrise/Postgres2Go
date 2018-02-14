@@ -5,30 +5,37 @@ branches:
   only:
   - master
   - develop
+  - /release\/*/
+  - /hotfix\/*/
 skip_tags: true
+shallow_clone: false
 environment:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   VERSION_INFO_SEMVER: null
   VERSION_INFO: null
-install:
-- ps: >-
-    $version_info = (gitversion /output json | ConvertFrom-Json)
-
-    $env:VERSION_INFO = $version_info
-
-    $env:VERSION_INFO_SEMVER = $version_info.SemVer
-
-
-    Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER"
-
-
-    Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER
-
-    Write-Host "Set APPVEYOR_BUILD_VERSION = " $env:APPVEYOR_BUILD_VERSION
 nuget:
   project_feed: true
   disable_publish_on_pr: true
+init:
+before_build:
+- ps: >-
+    $version_info_json = (gitversion /l console /output json);
+
+    $version_info = (gitversion /output json | ConvertFrom-Json);
+    
+    $env:VERSION_INFO = $version_info;
+    
+    $env:VERSION_INFO_SEMVER = $version_info.SemVer;
+
+    Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER";
+
+    Write-Host "Get GitVersion output = " $version_info_json;
+    
+    Write-Host "Set VERSION_INFO_SEMVER = " $env:VERSION_INFO_SEMVER;
+    
+    Write-Host "Set APPVEYOR_BUILD_VERSION = " $env:APPVEYOR_BUILD_VERSION;
+
 build_script:
 - ps: .\build.ps1
 test: off
@@ -37,20 +44,19 @@ artifacts:
   name: NuGet
 - path: .\test-results\*.xml
   name: Xunit
-
 deploy:
 - provider: GitHub
   tag: ${VERSION_INFO_SEMVER}
   release: v${VERSION_INFO_SEMVER}
   auth_token:
-    secure: xB9HMo4bYJ5YAcDMG/vm019T6A6BrWvq0W538SZ7KD4M+VTwYKKYF+QSnQw1AIg4
+    secure: JGXCP5ogwbyjc0iZqs8i6O/Znx87GbpVFF/Om9OAW9/6fNpygIspgaUDtnAWx1jD
   artifact: nothing
   draft: true
   on:
     branch: master
 - provider: NuGet
   api_key:
-    secure: IfXB68vXuUlPe+R9b6siviwC8H4UlhCAAHD8UR4JjUVur8melAN/AHwxttr2Ct9N0DV0My65NQdxa6iwm1MoYlw6qMi60oi+wbTIdhAChT4=
+    secure: p3Sk0hJZF4uia94ka0L+0VY4VXB2CP188Rq0kky1/ZHvaHacb4LaXxEG7crELBxe
   skip_symbols: true
   artifact: NuGet
   on:
