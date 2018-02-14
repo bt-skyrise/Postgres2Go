@@ -16,5 +16,4 @@ Special thanks to all [Contributors](CREDITS.md)
 # License
 
 This software is distributed under [MIT License](LICENSE.md).
-
-It contains third-party files located in the tools folder that are distributed under [PostgreSQL License](tools/LICENSE.md)
+It contains third-party files located in the pg-dist folder that are distributed under [PostgreSQL License](tools/LICENSE.md)
