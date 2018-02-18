@@ -3,6 +3,7 @@ using System.IO;
 using Postgres2Go.Helper.Net;
 using Postgres2Go.Helper.Postgres;
 using Postgres2Go.Helper.FileSystem;
+using Postgres2Go.Helper.Postgres.Platform;
 
 namespace Postgres2Go
 {
@@ -52,8 +53,8 @@ namespace Postgres2Go
             _binDirectory = new PostgresBinaryLocator(_options.BinariesSearchPattern).Directory;
 
             
-            PostgresBinaries
-                .AssertCanExecute(_binDirectory);
+            PostgresPlatformSetup
+                .Start(_binDirectory);
 
             PostgresInitializatorProcess
                 .Exec(_binDirectory, _instanceDirectory, PostgresDefaults.User);
