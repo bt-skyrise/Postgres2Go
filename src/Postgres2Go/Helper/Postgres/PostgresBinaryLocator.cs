@@ -26,13 +26,15 @@ namespace Postgres2Go.Helper.Postgres
                         _searchPattern = DefaultLinuxSearchPattern;
                         break;
                     case RecognizedOSPlatformEnum.OSX:
-                        throw new UnsupportedPlatformException($"Cannot locate Postgres binaries when running on OSX platform. OSX platform is not supported.");
-                        break;
+                        throw new UnsupportedPlatformException("Cannot locate Postgres binaries when running on OSX platform. OSX platform is not supported.");
                     case RecognizedOSPlatformEnum.Windows:
                         _searchPattern = DefaultWindowsSearchPattern;
                         break;
                     default:
+#if NETSTANDARD2_0
                         throw new PostgresBinariesNotFoundException($"Unknow OS:{RuntimeInformation.OSDescription}");
+#endif
+                        throw new PostgresBinariesNotFoundException("Unknow OS. This library is only compatible with Microsoft Windows");
                         
                 }
             }
