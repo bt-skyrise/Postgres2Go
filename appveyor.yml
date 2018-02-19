@@ -68,8 +68,8 @@ deploy:
   username: zabrowarnyrafal
   api_key:
     secure: XjrCjUTd9QwNy4cUUMuFkzKj9yjWIqBc7ry9Qbqosi7y8OY4NogNFGaog6dIj98D
-  subject: zabrowarnyrafal
-  repo: skyrise
+  subject: skyrise
+  repo: Postgres2Go
   package: Postgres2Go
   version: ${VERSION_INFO_NUGET}
   artifact: NuGet
