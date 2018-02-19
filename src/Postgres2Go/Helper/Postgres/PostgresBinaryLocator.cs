@@ -9,7 +9,8 @@ namespace Postgres2Go.Helper.Postgres
 
     internal class PostgresBinaryLocator
     {
-        internal const string DefaultWindowsSearchPattern = @"pg-dist\pqsql-win64*\bin";
+			//todo include 64bit version only
+        internal const string DefaultWindowsSearchPattern = @"pg-dist\pgsql-*-windows64-binaries\bin";
         internal const string DefaultLinuxSearchPattern = "pg-dist/pqsql-linux*/bin";
         
         private readonly string _nugetPrefix = Path.Combine("packages", "Postgres2Go*");
