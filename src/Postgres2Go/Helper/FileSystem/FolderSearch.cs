@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Postgres2Go.Helper.FileSystem
 {
@@ -14,8 +12,22 @@ namespace Postgres2Go.Helper.FileSystem
 
         internal static string CurrentExecutingDirectory()
         {
-            string filePath = new Uri(typeof(FolderSearch).GetTypeInfo().Assembly.CodeBase).LocalPath;
-            return Path.GetDirectoryName(filePath);
+            Assembly pg2goAssembly = typeof(FolderSearch).GetTypeInfo().Assembly;;
+            string pathToPostgres2GoAssembly = null;
+
+            //
+            // first try read location (abs path) of Postgres2Go assembly
+            // if framework doesn't implemented it then use code base value to get uri of Postgres2Go assembly 
+            try
+            {
+                pathToPostgres2GoAssembly = pg2goAssembly.Location;
+            }
+            catch (NotImplementedException)
+            {
+                pathToPostgres2GoAssembly = new Uri(pg2goAssembly.EscapedCodeBase).AbsolutePath;
+            }
+
+            return Path.GetDirectoryName(pathToPostgres2GoAssembly);
         }
 
         internal static string FindFolder(this string startPath, string searchPattern)

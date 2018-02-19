@@ -52,8 +52,10 @@ namespace Postgres2Go.Helper.Postgres
 
         private string ResolveBinariesDirectory()
         {
+            string searchPatternWithPackagesRootFolder = _nugetPrefix + _searchPattern;
+
             var binariesFolder =
-                FolderSearch.CurrentExecutingDirectory().FindFolderUpwards(Path.Combine(_nugetPrefix, _searchPattern)) 
+                FolderSearch.CurrentExecutingDirectory().FindFolderUpwards(searchPatternWithPackagesRootFolder) 
                 ??
                 FolderSearch.CurrentExecutingDirectory().FindFolderUpwards(_searchPattern);
 
