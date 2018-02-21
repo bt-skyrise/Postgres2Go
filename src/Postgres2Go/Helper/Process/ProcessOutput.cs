@@ -17,7 +17,7 @@ namespace Postgres2Go.Helper.Process
         internal IEnumerable<string> ErrorOutput { get; private set; }
         internal int ExitCode{get;private set;}
 
-        internal string ToString()
+        internal new string ToString()
         {
             var sb = new StringBuilder();
             

@@ -4,6 +4,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Version>$(SemVer)</Version>
     <NuspecFile>Postgres2Go.nuspec</NuspecFile>
   </PropertyGroup>
