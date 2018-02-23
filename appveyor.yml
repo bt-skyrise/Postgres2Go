@@ -14,6 +14,7 @@ environment:
   DOTNET_CLI_TELEMETRY_OPTOUT: true
   VERSION_INFO_SEMVER: null
   VERSION_INFO: null
+  VERSION_INFO_NUGET: null
 nuget:
   project_feed: true
   disable_publish_on_pr: true
@@ -27,6 +28,8 @@ before_build:
     $env:VERSION_INFO = $version_info;
     
     $env:VERSION_INFO_SEMVER = $version_info.SemVer;
+    
+    $env:VERSION_INFO_NUGET = $version_info.NuGetVersion
 
     Update-AppveyorBuild -Version "$env:VERSION_INFO_SEMVER-$env:APPVEYOR_BUILD_NUMBER";
 
@@ -61,3 +64,26 @@ deploy:
   artifact: NuGet
   on:
     branch: master
+- provider: BinTray
+  username: zabrowarnyrafal
+  api_key:
+    secure: XjrCjUTd9QwNy4cUUMuFkzKj9yjWIqBc7ry9Qbqosi7y8OY4NogNFGaog6dIj98D
+  subject: skyrise
+  repo: Postgres2Go
+  package: Postgres2Go
+  version: ${VERSION_INFO_NUGET}
+  artifact: NuGet
+  on:
+    branch: /hotfix\/*/
+- provider: BinTray
+  username: zabrowarnyrafal
+  api_key:
+    secure: XjrCjUTd9QwNy4cUUMuFkzKj9yjWIqBc7ry9Qbqosi7y8OY4NogNFGaog6dIj98D
+  subject: skyrise
+  repo: Postgres2Go
+  package: Postgres2Go
+  version: ${VERSION_INFO_NUGET}
+  artifact: NuGet
+  publish: true
+  on:
+    branch: /release\/*/

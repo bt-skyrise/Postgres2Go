@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Runtime.InteropServices;
 
 namespace Postgres2Go.Common
 {
@@ -17,6 +14,7 @@ namespace Postgres2Go.Common
     {
         internal static RecognizedOSPlatformEnum Determine()
         {
+#if NETSTANDARD2_0
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return RecognizedOSPlatformEnum.Windows;
@@ -31,6 +29,9 @@ namespace Postgres2Go.Common
             }
 
             return RecognizedOSPlatformEnum.Unknown;
+#else
+            return RecognizedOSPlatformEnum.Windows;
+#endif
         }
     }
 }
