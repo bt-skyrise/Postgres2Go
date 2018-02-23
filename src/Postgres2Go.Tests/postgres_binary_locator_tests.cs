@@ -2,14 +2,19 @@ using Xunit;
 using Postgres2Go.Helper.Postgres;
 namespace Postgres2Go.Tests
 {
-    public class posgres_binary_locator_tests
+    public class postgres_binary_locator_tests
     {
         [Fact]
         public void can_find_postgres_binaries_with_default_settings()
         {
-            var foundDirectory = new PostgresBinaryLocator(null).Directory;
+            //arrange
+            var postgresBinaryLocator = new PostgresBinaryLocator(null);
             
-            Assert.True(!string.IsNullOrEmpty(binDirectory));
+            //act
+            var foundDirectory = postgresBinaryLocator.Directory;
+            
+            //assert
+            Assert.True(!string.IsNullOrEmpty(foundDirectory));
         }
     }
 }
