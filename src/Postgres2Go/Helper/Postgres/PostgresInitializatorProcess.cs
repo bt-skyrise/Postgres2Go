@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 
 namespace Postgres2Go.Helper.Postgres
 {
@@ -17,7 +18,7 @@ namespace Postgres2Go.Helper.Postgres
                 .StartAndWaitForExit(serverInitializatorProcess, "Postgres cluster initializing");
 
             if(output.ExitCode != 0)
-                throw new PostgresProcessFinishedWithErrorsException("Cannot initialize Postgres cluster.\n" + System.String.Join("\n",output.ErrorOutput));
+                throw new PostgresProcessFinishedWithErrorsException("Cannot initialize Postgres cluster." + output.ToString());
         }
     }
 }

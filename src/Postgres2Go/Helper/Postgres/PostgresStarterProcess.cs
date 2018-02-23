@@ -21,7 +21,7 @@ namespace Postgres2Go.Helper.Postgres
                 .StartAndWaitForReady(serverStarterProcess, ProcessTimeoutInSeconds, ProcessIdentifier, $"Postgres starting | port: {port}");
             
             if (output.ExitCode != 0)
-                throw new PostgresProcessFinishedWithErrorsException("Cannot start Postmaster.\n" + String.Join("\n", output.ErrorOutput));
+                throw new PostgresProcessFinishedWithErrorsException("Cannot start Postmaster." + output.ToString());
         }
     }
 }

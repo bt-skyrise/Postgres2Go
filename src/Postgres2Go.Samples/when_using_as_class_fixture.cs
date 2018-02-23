@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using Npgsql;
@@ -13,23 +12,12 @@ namespace Postgres2Go.Samples
 
         public PgFixture()
         {
-            _pgRunner = PostgresRunner
-                .Start(new PostgresRunnerOptions{ BinariesSearchPattern = GetPgBinariesRelativePath()});
+            _pgRunner = PostgresRunner.Start();
         }
 
         public void Dispose() => _pgRunner?.Dispose();
 
         public string ConnectionString => _pgRunner.GetConnectionString();
-
-        private string GetPgBinariesRelativePath()
-        {
-            if(RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                return "\\pg-dist\\pgsql-10.1-windows64-binaries\\bin";
-            else if(RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                return "/pg-dist/pgsql-10.1-linux-binaries/bin";
-            else
-                throw new NotSupportedException("OSX is not yet supported");
-        }
     }
     
     public class when_using_as_class_fixture : IClassFixture<PgFixture>
