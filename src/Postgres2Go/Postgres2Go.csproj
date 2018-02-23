@@ -7,7 +7,8 @@
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Version>$(SemVer)</Version>
     <NuspecFile>Postgres2Go.nuspec</NuspecFile>
-  </PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup> 
   <ItemGroup>
     <Compile Remove="Helper\PostgresProcess.IDisposable.cs" />
   </ItemGroup>
