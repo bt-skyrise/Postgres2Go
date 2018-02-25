@@ -34,7 +34,7 @@ PG_LIB_LINKS=(
 PG_BINARIES="$1"
 
 cd $PG_BINARIES
-cd lib
+cd ./../lib
 
 echo "Changed working_dir to $PWD"
 
