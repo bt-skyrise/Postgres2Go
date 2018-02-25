@@ -73,6 +73,8 @@ deploy:
   package: Postgres2Go
   version: ${VERSION_INFO_NUGET}
   artifact: NuGet
+  publish: true
+  override: true
   on:
     branch: /hotfix\/*/
 - provider: BinTray
@@ -85,5 +87,6 @@ deploy:
   version: ${VERSION_INFO_NUGET}
   artifact: NuGet
   publish: true
+  override: true
   on:
     branch: /release\/*/

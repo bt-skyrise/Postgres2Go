@@ -12,7 +12,8 @@ namespace Postgres2Go.Helper.Postgres
         internal const string DefaultWindowsSearchPattern = @"pg-dist\pgsql-*-windows64-binaries\bin";
         internal const string DefaultLinuxSearchPattern = "pg-dist/pgsql-*-linux-binaries/bin";
         
-        private readonly string _nugetPrefix = Path.Combine("packages", "Postgres2Go*");
+        internal static string NugetPackagesDirectoryPrefix = Path.Combine("packages", "Postgres2Go*");
+        
         private string _binFolder = string.Empty;
         private readonly string _searchPattern;
 
@@ -46,13 +47,13 @@ namespace Postgres2Go.Helper.Postgres
 
         internal string Directory 
             => String.IsNullOrEmpty(_binFolder) 
-                ? _binFolder = ResolveBinariesDirectory () 
+                ? _binFolder = ResolveBinariesDirectory() 
                 : _binFolder
                 ;
 
         private string ResolveBinariesDirectory()
         {
-            string searchPatternWithPackagesRootFolder = _nugetPrefix + _searchPattern;
+            string searchPatternWithPackagesRootFolder = Path.Combine(NugetPackagesDirectoryPrefix, _searchPattern);
 
             var binariesFolder =
                 FolderSearch.CurrentExecutingDirectory().FindFolderUpwards(searchPatternWithPackagesRootFolder) 
