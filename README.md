@@ -42,6 +42,7 @@ To cleanup environment execute method __`Dispose()`__
 Example usage can be found under __`src/Postgres2Go.Samples`__
 
 ## Credits
+Copyright (c) 2017 Johannes Hoppe
 Copyright (c) 2018 [Skyrise](http://skyrise.tech)
 
 Special thanks to all [Contributors](CREDITS.md)
