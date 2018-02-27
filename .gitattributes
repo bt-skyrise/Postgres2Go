@@ -1,0 +1,8 @@
+# shell scripts
+*.sh                                text eol=lf
+
+# linux Pg dist links, libs
+lib*.so[\.\d]*                      binary
+pgsql-*-linux-binaries\bin\*        binary
+pgsql-*-linux-binaries\lib\*        binary
+pgsql-*-linux-binaries\share\*      binary
