@@ -17,8 +17,8 @@ namespace Postgres2Go.Helper.Postgres
             System.Diagnostics.Process serverStopperProcess = Process.ProcessController
                 .CreateProcess(pgControllerExecutablePath, arguments);
 
-            ProcessOutput output = Process.ProcessController
-                .StartAndWaitForReady(serverStopperProcess, ProcessTimeoutInSeconds, ProcessIdentifier, $"Postgres stopping");
+            ProcessOutput output = ProcessController
+                .StartAndWaitForReady(serverStopperProcess, ProcessTimeoutInSeconds, ProcessIdentifier, "Postgres stopping");
         }
     }
 }

@@ -1,0 +1,13 @@
+# shell scripts
+*.sh                                                    text eol=lf
+
+# linux Pg dist links, libs
+pg-dist/pgsql-*-linux-binaries/**/lib*.so[\.\d]*        binary
+pg-dist/pgsql-*-linux-binaries/bin/**                   binary
+pg-dist/pgsql-*-linux-binaries/lib/**                   binary
+pg-dist/pgsql-*-linux-binaries/share/**                 binary
+
+# windows Pg dist links, libs
+pg-dist/pgsql-*-windows64-binaries/bin/**               binary
+pg-dist/pgsql-*-windows64-binaries/lib/**               binary
+pg-dist/pgsql-*-windows64-binaries/share/**             binary

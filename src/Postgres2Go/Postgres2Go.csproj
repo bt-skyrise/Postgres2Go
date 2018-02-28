@@ -1,12 +1,14 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;net46;net47</TargetFrameworks>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <Version>$(SemVer)</Version>
     <NuspecFile>Postgres2Go.nuspec</NuspecFile>
-  </PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup> 
   <ItemGroup>
     <Compile Remove="Helper\PostgresProcess.IDisposable.cs" />
   </ItemGroup>

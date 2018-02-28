@@ -3,6 +3,10 @@ mode: ContinuousDelivery
 branches:
   dev(elop)?(ment)?$:
     mode: ContinuousDeployment
+  release/*$:
+    mode: ContinuousDeployment
+  hotfix/*$:
+    mode: ContinuousDeployment
   master:
     mode: ContinuousDelivery
   (pull|pull\-requests|pr)[/-]: {}
