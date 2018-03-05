@@ -1,5 +1,6 @@
 # shell scripts
 *.sh                                                    text eol=lf
+test-tools/smoke-test/linux/test-in-docker.ps1          text eol=lf
 
 # linux Pg dist links, libs
 pg-dist/pgsql-*-linux-binaries/**/lib*.so[\.\d]*        binary
