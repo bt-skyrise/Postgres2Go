@@ -17,6 +17,7 @@ namespace Postgres2GoSmokeTest
                 var version = cmd.ExecuteScalar() as string;
 
                 Console.WriteLine($"PostgreSQL version: {version}");
+                Console.WriteLine("TEST SUCCESSFUL");
             }
         }
     }

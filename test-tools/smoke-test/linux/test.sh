@@ -7,7 +7,7 @@ set -e # exit on error
 PROJECT_DIR="../project"
 PACKAGE_SOURCE="https://api.nuget.org/v3/index.json"
 TEST_DIR="/tmp/postgres2go-test"
-CLEAR_PACKAGE_CACHE=true
+CLEAR_PACKAGE_CACHE=false
 
 while [[ $# -gt 0 ]]
 do
@@ -22,7 +22,7 @@ case $key in
     PACKAGE_SOURCE="$2"
     shift 2
     ;;
-    -s|--package-version)
+    -v|--package-version)
     PACKAGE_VERSION="$2"
     shift 2
     ;;
@@ -30,8 +30,8 @@ case $key in
     TEST_DIR="$2"
     shift 2
     ;;
-    -nc|--no-clear-cache)
-    CLEAR_PACKAGE_CACHE=false
+    -c|--clear-cache)
+    CLEAR_PACKAGE_CACHE=true
     shift 
     ;;
 esac
