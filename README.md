@@ -30,7 +30,23 @@ paket add Postgres2Go
 
 ## Usage
 
-Execute static factory method __`PostgresRunner.Start()`__ to setup new instance of disposable `PostgresRunner` and isolated instance of PostgreSQL.
+```csharp
+public class Program
+{
+    public static void Main(params string[] args) 
+    {
+        using(var runner = PostgresRunner.Start()) 
+        using(var conn = new NpgsqlConnection(runner.GetConnectionString()))
+        using(var cmd = new NpgsqlCommand("select version()", conn))
+        {
+            conn.Open();
+            var version = cmd.ExecuteScalar() as string;
+
+            Console.WriteLine($"PostgreSQL version: {version}");
+        }
+    }
+}
+```
 
 `PostgresRunner.Start()` accepts parameters:
 - `DataDirectory` directory where new instance of PostgreSQL cluster will keep its data; if not provided then special directory will be created inside of `TEMP` folder
@@ -39,7 +55,7 @@ Execute static factory method __`PostgresRunner.Start()`__ to setup new instance
 
 To cleanup environment execute method __`Dispose()`__
 
-Example usage can be found under __`src/Postgres2Go.Samples`__
+Example usage can be found under [src/Postgres2Go.Samples](src/Postgres2Go.Samples)
 
 ## Credits
 Copyright (c) 2017 Johannes Hoppe
