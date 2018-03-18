@@ -1,13 +1,19 @@
-<p>
-<img src="assets/postgres2go_logo_whitebg_250.png" style="float:left; height: 150px; width: 150px; margin-right: 25px">
-<h1 style="line-height:90px; color: #00AFA9">Postgres2Go</h1>
-</p>
+<img src="assets/postgres2go_logo_whitebg_250.png" height="150" width="150" align="left" />
+<br/>
+<br/>
+<h1>Postgres2Go</h1>
+<br/>
+<br/>
 
 ***
+
+<br/>
 
 [![GitHub release][github-release-img]][github-release-url]&nbsp;[![Master build status][appveyor-master-status]][appveyor-project-url]&nbsp;[![Develop build status][appveyor-develop-status]][appveyor-project-url]&nbsp;[![GitHub license][license-img]][license-url]
 
 [![Stable nuget][nuget-img]][nuget-url]&nbsp;[![Downloads][nuget-stats-img]][nuget-url]
+
+<br/>
 
 ## Description
 
