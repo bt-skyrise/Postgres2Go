@@ -14,7 +14,7 @@
     <language>en-US</language>
     <summary>PostgreSQL for integration tests</summary>
     <description>Easily spin up PostgreSQL instances for integration tests. It targets .NET Standard 2.0. This Nuget package contains the executables of PostgreSQL for Windows, Linux</description>
-    <tags>postgres postgresql</tags>
+    <tags>postgres postgresql integration-test unit test</tags>
   </metadata>
   <files>
     <file src=".\bin\Release\**" target="lib" />
