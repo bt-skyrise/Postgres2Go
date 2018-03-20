@@ -1,7 +1,8 @@
 Param(
     [string]$packageSource = "https://api.nuget.org/v3/index.json",
     [switch]$sourceIsLocalDir,
-    [string]$packageVersion
+    [string]$packageVersion,
+    [string]$image = "microsoft/dotnet:2.0-sdk-stretch"
 )
 
 $packageVersionArg =    if ($packageVersion) { "--package-version $packageVersion" } 
@@ -22,7 +23,7 @@ docker run `
     -v "$(resolve-path $mountedPackageDir):/package" `
     -v "$(resolve-path ../project):/project" `
     -v "$(resolve-path .):/test" `
-    microsoft/dotnet:2.0-sdk-stretch `
+    $image `
     /bin/bash -c @"
     apt update && \
     apt install sudo && \

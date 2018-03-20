@@ -48,11 +48,12 @@ Parameters:
 
 `-sourceIsLocalDir` - set this switch if source specified with `-packageSource` is a local directory
 
-
 `-packageVersion` - select package version to test
+
+`-image` - select the image to test on, defaults to `microsoft/dotnet:2.0-sdk-stretch`
 
 Example:
 
 ```powershell
-.\test-in-docker.ps1 -packageSource ../package  -sourceIsLocalDir -packageVersion 0.3.0
+.\test-in-docker.ps1 -packageSource ../package  -sourceIsLocalDir -packageVersion 0.3.0 -image microsoft/dotnet:2.1-sdk-stretch
 ```
