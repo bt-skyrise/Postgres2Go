@@ -1,46 +1,40 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
 using Npgsql;
-using Xunit;
+using NUnit.Framework;
 
 namespace Postgres2Go.Samples
 {
-    public class PgFixture : IDisposable
+    [TestFixture]
+    public class when_using_as_nunit_testfixture
     {
-        private readonly PostgresRunner _pgRunner;
+        private PostgresRunner _pgRunner;
 
-        public PgFixture()
+        [OneTimeSetUp]
+        public void Init()
         {
             _pgRunner = PostgresRunner.Start();
         }
 
-        public void Dispose() => _pgRunner?.Dispose();
-
-        public string ConnectionString => _pgRunner.GetConnectionString();
-    }
-    
-    public class when_using_as_class_fixture : IClassFixture<PgFixture>
-    {
-        private readonly PgFixture _fixture;
-
-        public when_using_as_class_fixture(PgFixture fixture)
+        [OneTimeTearDown]
+        public void Cleanup()
         {
-            _fixture = fixture;
+            _pgRunner?.Dispose();
         }
 
-        [Fact]
-        public async Task should_create_new_database_and_allow_exec_query_1()
+        [Test]
+        public async System.Threading.Tasks.Task should_create_new_database_and_allow_exec_query_1()
         {
             // PREPARE
-            var dbName = "test_db_1";
+            var dbName = "test_nunit_db_1";
 
             var cmdBuilder = new StringBuilder();
             cmdBuilder.AppendLine($"CREATE DATABASE {dbName}");
             cmdBuilder.AppendLine("CONNECTION LIMIT = -1");
 
             // RUN
-            using (var conn = new Npgsql.NpgsqlConnection(_fixture.ConnectionString))
+            using (var conn = new Npgsql.NpgsqlConnection(_pgRunner.GetConnectionString()))
             {
                 await conn.OpenAsync();
                 var cmd = new NpgsqlCommand(cmdBuilder.ToString(), conn);
@@ -54,18 +48,18 @@ namespace Postgres2Go.Samples
             }
         }
 
-        [Fact]
-        public async Task should_create_new_database_and_allow_exec_query_2()
+        [Test]
+        public async System.Threading.Tasks.Task should_create_new_database_and_allow_exec_query_2()
         {
             // PREPARE
-            var dbName = "test_db_2";
+            var dbName = "test_nunit_db_2";
 
             var cmdBuilder = new StringBuilder();
             cmdBuilder.AppendLine($"CREATE DATABASE {dbName}");
             cmdBuilder.AppendLine("CONNECTION LIMIT = -1");
 
             // RUN
-            using (var conn = new Npgsql.NpgsqlConnection(_fixture.ConnectionString))
+            using (var conn = new Npgsql.NpgsqlConnection(_pgRunner.GetConnectionString()))
             {
                 await conn.OpenAsync();
                 var cmd = new NpgsqlCommand(cmdBuilder.ToString(), conn);

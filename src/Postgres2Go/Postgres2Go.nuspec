@@ -10,10 +10,11 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <projectUrl>https://github.com/bt-skyrise/Postgres2Go/</projectUrl>
     <copyright>Copyright © Skyrise.tech 2018</copyright>
+    <iconUrl>https://raw.githubusercontent.com/bt-skyrise/Postgres2Go/master/assets/postgres2go_logo_whitebg_250.png</iconUrl>
     <language>en-US</language>
     <summary>PostgreSQL for integration tests</summary>
     <description>Easily spin up PostgreSQL instances for integration tests. It targets .NET Standard 2.0. This Nuget package contains the executables of PostgreSQL for Windows, Linux</description>
-    <tags>postgres postgresql</tags>
+    <tags>postgres postgresql integration-test unit test</tags>
   </metadata>
   <files>
     <file src=".\bin\Release\**" target="lib" />
