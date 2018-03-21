@@ -1,25 +1,34 @@
-Postgres2Go
-===========
-> Postgres2Go - PostgreSQL for integration tests
+<img src="assets/postgres2go_logo_whitebg_250.png" height="120" width="120" align="left" />
+<h1>&nbsp;Postgres2Go</h1>
+<br/>
+<hr/>
 
 [![GitHub release][github-release-img]][github-release-url]&nbsp;[![Master build status][appveyor-master-status]][appveyor-project-url]&nbsp;[![Develop build status][appveyor-develop-status]][appveyor-project-url]&nbsp;[![GitHub license][license-img]][license-url]
 
 [![Stable nuget][nuget-img]][nuget-url]&nbsp;[![Downloads][nuget-stats-img]][nuget-url]
 
-### Description
->Inspired by __[https://github.com/Mongo2Go/Mongo2Go](https://github.com/Mongo2Go/Mongo2Go)__
 
-Easily spin up PostgreSQL instances for integration tests. It targets .NET Standard 2.0, .NET 4.6, .NET 4.7. This Nuget package contains the executables of PostgreSQL for Windows, Linux.
+## Description
+
+>**Inspired by [Mongo2Go](https://github.com/Mongo2Go/Mongo2Go)**
+
+Easily spin up PostgreSQL instances for integration tests. It is .NET library that makes easy to launch new instance of PostgreSQL server for duration of integration test suite. Each instance os PostgreSQL server run in an isolated envrionement side by side of another instance of PostgreSQL server. It does not require additional external dependencies. Allows test data access layer or application when state of database should be predictable.
+
+It targets .NET Standard 2.0, .NET 4.6, .NET 4.7. 
+
+This Nuget package contains bundled version of PostgreSQL for Windows, Linux.
 
 ## Installation
 
-Using __nuget.exe__ and __powershell__: 
-```
+Postgres2Go can be installed 
+
+using __nuget.exe__ and __powershell__: 
+```powershell
 Install-Package Postgres2Go
 ```
 
 or using __dotnet cli__: 
-```
+```bash
 dotnet add package Postgres2Go
 ```
 
@@ -29,6 +38,8 @@ paket add Postgres2Go
 ```
 
 ## Usage
+
+To start new instance of PostgreSQL server within integration test suite use `PostgresRunner` like this:
 
 ```csharp
 public class Program
@@ -53,13 +64,14 @@ public class Program
 - `BinariesSearchPattern` path part where PostgreSQL distribution should be located
 - `Port` TCP port used by PostgreSQL instance; if not provided then first free TCP port above 15433 will be used
 
-To cleanup environment execute method __`Dispose()`__
+When test come into tear down phase then execute method __`Dispose()`__ to cleanup environment. This will remove database created for test and PostgreSQL cluster.
 
-Example usage can be found under [src/Postgres2Go.Samples](src/Postgres2Go.Samples)
+Other examples can be found under [src/Postgres2Go.Samples](src/Postgres2Go.Samples)
 
 ## Credits
-Copyright (c) 2017 Johannes Hoppe
-Copyright (c) 2018 [Skyrise](http://skyrise.tech)
+__Copyright (c) 2017 Johannes Hoppe__
+
+__Copyright (c) 2018 [Skyrise](http://skyrise.tech)__
 
 Special thanks to all [Contributors](CREDITS.md)
 
